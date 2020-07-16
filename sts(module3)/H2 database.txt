@@ -1,0 +1,58 @@
+*****************H2 database******************
+
+create one starter project
+**********H2Example
+pom.xml:
+
+
+1...appliaction.properties:
+server.port=5050
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2
+spring.datasource.url=jdbc:h2:file:c:/data/sample
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+2...application
+package com.example.demos;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class H2ExampleApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(H2ExampleApplication.class, args);
+	}
+
+}
+
+goto browser
+localhost:5050/h2
+we will get h2 database console
+change url as
+jdbc:h2:file:c:/data/sample
+click on Test connection
+we will get Testsuccessful
+click on connect
+
+*******************************************************
+src/main/resouces..
+schema.sql
+
+DROP TABLE IF EXISTS TBL_EMPLOYEES;
+  
+CREATE TABLE TBL_EMPLOYEES (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  first_name VARCHAR(250) NOT NULL,
+  last_name VARCHAR(250) NOT NULL,
+  email VARCHAR(250) DEFAULT NULL
+);
+data.sql
+INSERT INTO TBL_EMPLOYEES (first_name, last_name, email) VALUES
+  ('Lokesh', 'Gupta', 'abc@gmail.com'),
+  ('Deja', 'Vu', 'xyz@email.com'),
+  ('Caption', 'America', 'cap@marvel.com');

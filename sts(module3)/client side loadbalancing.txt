@@ -1,0 +1,50 @@
+we have to run all the above(eureka server) above starter projects again..
+change sentence application with below code....
+again run this
+
+
+package com.example.demos;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+//import org.springframework.cloud.client.ServiceInstance;
+//import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+@SpringBootApplication
+@RestController
+public class SentenceServiceApplication {
+//@Autowired
+//DiscoveryClient discoveryClient;
+//RestTemplate restTemplate = new RestTemplate();
+@Bean
+@LoadBalanced
+public RestTemplate restTemplate()
+{
+	return new RestTemplate();
+}
+@Autowired
+RestTemplate restTemplate;
+@GetMapping("/sentence")
+public String createSentence() {
+String verbResponse=restTemplate.getForObject("http://verb/word",String.class);
+//ServiceInstance verbInstance=verbInstances.get(0);
+
+String  nounResponse=restTemplate.getForObject("http://noun/word",String.class);
+//ServiceInstance nounInstance=nounInstances.get(0);
+
+//String verbResponse=restTemplate.getForObject(verbInstance.getUri()+"/word", String.class);
+//String nounResponse=restTemplate.getForObject(nounInstance.getUri()+"/word", String.class);
+return verbResponse+" "+nounResponse;
+}
+public static void main(String[ ] args) {
+SpringApplication.run(SentenceServiceApplication.class, args);
+}
+
+}

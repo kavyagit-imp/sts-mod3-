@@ -1,0 +1,36 @@
+http://www.vinsguru.com/architectural-design-patterns-cqrs-command-and-query-responsibility-segregation-using-spring-boot-postgresql/
+
+***************************************
+link for case study
+https://www.baeldung.com/spring-angular-ecommerce
+http://www.vinsguru.com/cloud-design-patterns-materialized-view-pattern-using-spring-boot-postgresql/
+**************************
+
+Case 1 -
+ http://www.vinsguru.com/cloud-design-patterns-materialized-view-pattern-using-spring-boot-postgresql/
+
+Case 2- 
+http://www.vinsguru.com/kafka-data-consistency-among-microservices-with-event-driven-pattern/
+
+Case 3-
+ http://www.vinsguru.com/architectural-design-patterns-cqrs-command-and-query-responsibility-segregation-using-spring-boot-postgresql/
+
+
+case study:example
+https://github.com/idugalic/micro-ecommerce
+
+********************************************
+https://sivalabs.in/2018/03/microservices-using-springboot-spring-cloud-part-1-overview/
+https://sivalabs.in/2018/03/microservices-part-2-configuration-management-spring-cloud-config-vault/
+***********************
+https://github.com/sivaprasadreddy/spring-boot-microservices-series
+
+
+link:
+lab 1:
+https://bit.ly/3avyHXn
+lab 2:
+https://howtodoinjava.com/spring-boot2/logging/spring-boot-logging-configurations/
+
+webex link
+https://innovatorlearningtrainingsolutions.my.webex.com/join/srinivasa

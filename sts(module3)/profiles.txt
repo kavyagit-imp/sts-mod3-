@@ -1,0 +1,153 @@
+date:28/03
+ex:
+
+[10:59 AM] Srini - Trainer
+    
+@SpringBootApplication
+@RestController
+public class ProfileDemoApplication {
+
+
+    @Autowired
+    Env env;
+    
+    @Bean
+    @Profile("dev")
+    public Env getDev() {
+        return new Env("dev");
+    }
+    
+    @Bean
+    @Profile("prod")
+    public Env getProd() {
+        return new Env("prod");
+    }
+    
+    @Bean
+    @Profile("test")
+    public Env getTest() {
+        return new Env("test");
+    }
+    
+    @GetMapping("/env")
+    public Env displayEnvironment() {
+        return env;
+    }
+    
+    
+    public static void main(String[] args) {
+        SpringApplication.run(ProfileDemoApplication.class, args);
+    }
+
+
+}
+ 
+
+
+******************************************************************8
+
+
+package com.example.demos;
+
+public class Greeting {
+String msg;
+
+public Greeting(String msg) {
+	super();
+	this.msg = msg;
+}
+
+public Greeting() {
+	super();
+	// TODO Auto-generated constructor stub
+}
+
+public String getMsg() {
+	return msg;
+}
+
+public void setMsg(String msg) {
+	this.msg = msg;
+}
+
+@Override
+public String toString() {
+	return "Greeting [msg=" + msg + "]";
+}
+
+}
+/////////////////////////////////
+package com.example.demos;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
+@Configuration
+public class GreetingConfig {
+	@Bean
+	@Profile("morning")
+Greeting greetMorning()
+{
+	return new Greeting("good morning");
+}
+	@Bean
+	@Profile("noon")
+Greeting greetNoon()
+{
+	return new Greeting("good noon");
+}
+	@Bean
+	@Profile("evng")
+Greeting greetEvng()
+{
+	return new Greeting("good evng");
+}
+}
+////////////////////////////
+package com.example.demos;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class GreetingMain {
+public static void main(String[] args)
+{
+	ApplicationContext context=new AnnotationConfigApplicationContext(GreetingConfig.class);
+			Greeting greet=context.getBean(Greeting.class);
+			System.out.println(greet);
+}
+}
+
+run as java application
+we get an exception
+to overcome
+add arguments in runconfiguartion
+type
+-Dspring.profiles.active=noon
+in vm arguments
+and run
+*****************************************************
+remove vm arguments
+
+package com.example.demos;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
+
+
+public class GreetingMain {
+public static void main(String[] args)
+{
+	ApplicationContext context=SpringApplication.run(GreetingConfig.class,args);
+			Greeting greet=context.getBean(Greeting.class);
+		
+			System.out.println(greet);
+}
+}
+add
+application.properties
+spring.profiles.active=morning
+run 
+*********************************************************
+

@@ -1,0 +1,158 @@
+         *********Eureka service:********
+
+create a starter project
+*****EurekaService1
+
+1....
+package com.example.demos;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+
+@SpringBootApplication
+@EnableEurekaServer
+public class EurekaService1Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(EurekaService1Application.class, args);
+	}
+
+}
+2....
+application.properties:
+
+server.port=8761
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+
+save and run eurekaservice1Application
+
+localhost:8761
+eureka will start with no instances
+
+*******************************************
+Create another starter project
+******verb(web)service:
+1...
+package com.example.demos;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.*;
+@SpringBootApplication
+@RestController
+public class WebServiceApplication {
+@GetMapping("/word")
+public String getword()
+{
+	return "random verb";
+}
+	public static void main(String[] args) {
+		SpringApplication.run(WebServiceApplication.class, args);
+	}
+
+}
+2....
+application.properties
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+server.port=0
+spring.application.name=verb
+
+save and run 
+refresh eureka
+then instance "verb" will be created..
+
+**************************************************
+create another starter project
+******nounService**
+
+package com.example.demos;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.*;
+@SpringBootApplication
+@RestController
+public class NounServiceApplication {
+@GetMapping("/word")
+public String getword()
+{
+	return "random noun";
+}
+	public static void main(String[] args) {
+		SpringApplication.run(NounServiceApplication.class, args);
+	}
+
+}
+2.....
+appliaction.properties
+
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+server.port=0
+spring.application.name=noun
+
+save and run
+refresh page
+we will get "noun" instance..
+
+*************************************************
+create another starter project
+SentenceService
+
+package com.example.demos;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+@SpringBootApplication
+@RestController
+public class SentenceServiceApplication {
+@Autowired
+DiscoveryClient discoveryClient;
+RestTemplate restTemplate = new RestTemplate();
+
+@GetMapping("/sentence")
+public String createSentence() {
+List<ServiceInstance> verbInstances=discoveryClient.getInstances("verb");
+ServiceInstance verbInstance=verbInstances.get(0);
+
+List<ServiceInstance> nounInstances=discoveryClient.getInstances("noun");
+ServiceInstance nounInstance=nounInstances.get(0);
+
+String verbResponse=restTemplate.getForObject(verbInstance.getUri()+"/word", String.class);
+String nounResponse=restTemplate.getForObject(nounInstance.getUri()+"/word", String.class);
+return verbResponse+" "+nounResponse;
+}
+public static void main(String[ ] args) {
+SpringApplication.run(SentenceServiceApplication.class, args);
+}
+
+}
+
+2...
+application.properties
+
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+server.port=8888
+spring.application.name=sentence
+
+save and run 
+refresh
+we will get sentence" instance
+click on that link
+give /sentence
+
+
+
+
+
+
